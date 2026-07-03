@@ -3,9 +3,11 @@ package com.ejemplo.articulos;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.ejemplo.articulos", "com.ejemplo.pedidos", "com.ejemplo.usuarios"})
 @EnableJpaRepositories(basePackages = {"com.ejemplo.articulos", "com.ejemplo.pedidos", "com.ejemplo.usuarios"})
 @EntityScan(basePackages = {"com.ejemplo.articulos", "com.ejemplo.pedidos", "com.ejemplo.usuarios"})
 public class ArticuloApiApplication {

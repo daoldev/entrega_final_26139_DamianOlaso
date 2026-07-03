@@ -1,5 +1,4 @@
-# API - Spring Boot + MySQL
-
+# API - JAVA - Spring Boot - MySQL
 Esta API permite la gestión de artículos, pedidos y usuarios desarrollada en Java con Spring Boot y MySQL.
 
 ## Requisitos
