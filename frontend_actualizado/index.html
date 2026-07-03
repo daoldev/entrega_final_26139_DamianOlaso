@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Commerce API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Sistema de Ventas</h1>
+
+    <ul class="nav nav-tabs mb-4" id="tabNav">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#productos">Artículos</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#carrito">Carrito</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pedidos">Pedidos</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#usuarios">Usuarios</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div class="tab-pane fade show active" id="productos">
+            <form id="form-articulo" class="mb-4 p-3 border rounded">
+                <h4 id="titulo-form">Nuevo Artículo</h4>
+                <input type="hidden" id="idArticulo">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio" step="0.01" required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <select class="form-select" id="categoria">
+                            <option value="">Seleccionar...</option>
+                            <option value="Electrónica">Electrónica</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Hogar">Hogar</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="stock" min="0" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="imagen" class="form-label">URL de Imagen</label>
+                        <input type="text" class="form-control" id="imagen">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-secondary" id="cancelar">Cancelar</button>
+            </form>
+
+            <table class="table table-bordered table-hover table-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Categoría</th>
+                        <th>Stock</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-articulos"></tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="carrito">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Agregar al Carrito</h4>
+                    <div class="mb-3">
+                        <label for="usuarioIdCarrito" class="form-label">ID Usuario</label>
+                        <input type="number" class="form-control" id="usuarioIdCarrito" value="1" min="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productoCarrito" class="form-label">Producto</label>
+                        <select class="form-select" id="productoCarrito"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidadCarrito" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control" id="cantidadCarrito" value="1" min="1">
+                    </div>
+                    <button class="btn btn-success" id="agregar-al-carrito">Agregar</button>
+                </div>
+                <div class="col-md-8">
+                    <h4>Carrito Actual</h4>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-carrito"></tbody>
+                        <tfoot>
+                            <tr class="table-secondary">
+                                <td colspan="3" class="text-end fw-bold">Total:</td>
+                                <td id="total-carrito" class="fw-bold">$0.00</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button class="btn btn-primary" id="realizar-pedido">Realizar Pedido</button>
+                    <button class="btn btn-secondary" id="limpiar-carrito">Limpiar Carrito</button>
+                    <div id="resultado-pedido" class="mt-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pedidos">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="usuarioIdPedidos" class="form-label">ID Usuario</label>
+                    <input type="number" class="form-control" id="usuarioIdPedidos" value="1" min="1">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-primary" id="buscar-pedidos">Buscar Pedidos</button>
+                </div>
+            </div>
+            <div id="pedidos-container"></div>
+        </div>
+
+        <div class="tab-pane fade" id="usuarios">
+            <form id="form-usuario" class="mb-4 p-3 border rounded">
+                <h4>Nuevo Usuario</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="nombreUsuario" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreUsuario" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="emailUsuario" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="emailUsuario" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            </form>
+            <h4>Usuarios Registrados</h4>
+            <table class="table table-bordered table-sm">
+                <thead class="table-dark">
+                    <tr><th>ID</th><th>Nombre</th><th>Email</th></tr>
+                </thead>
+                <tbody id="tabla-usuarios"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
